@@ -4,15 +4,13 @@ import PokemonCard from "./PokemonCard";
 function Pokemon() {
     const [pokemonData, setPokemonData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const pokemonApi = 'https://pokeapi.co/api/v2/pokemon/?offset=10&limit=125';
 
     async function fetchPokemonApi() {
         try {
             const response = await fetch(pokemonApi);
-            if (!response.ok) {
-                throw new Error("Failed fetching an api");
-            }
             const pokemonApiData = await response.json();
 
             const pokemonDetailedApiData = pokemonApiData.results.map(async (currPokemonData) => {
@@ -26,7 +24,9 @@ function Pokemon() {
             setIsLoading(false);
             console.log(detailedResponse);
         } catch (error) {
-            console.log('Error fetching pokemon data', error);
+            setIsLoading(false);
+            console.log(error.message);
+            setError(error.message);
         }
     }
 
@@ -38,6 +38,9 @@ function Pokemon() {
         return <h1>Loading...</h1>
     }
 
+    if (error) {
+        return <h1>{error}</h1>
+    }
 
     return (
         <section className="container">
