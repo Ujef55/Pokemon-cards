@@ -3,6 +3,7 @@ import PokemonCard from "./PokemonCard";
 
 function Pokemon() {
     const [pokemonData, setPokemonData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const pokemonApi = 'https://pokeapi.co/api/v2/pokemon/?offset=10&limit=125';
 
@@ -22,6 +23,7 @@ function Pokemon() {
 
             const detailedResponse = await Promise.all(pokemonDetailedApiData);
             setPokemonData(detailedResponse);
+            setIsLoading(false);
             console.log(detailedResponse);
         } catch (error) {
             console.log('Error fetching pokemon data', error);
@@ -30,7 +32,12 @@ function Pokemon() {
 
     useEffect(() => {
         fetchPokemonApi();
-    }, [])
+    }, []);
+
+    if (isLoading) {
+        return <h1>Loading...</h1>
+    }
+
 
     return (
         <section className="container">
