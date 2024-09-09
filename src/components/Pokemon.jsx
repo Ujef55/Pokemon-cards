@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PokemonCard from "./PokemonCard";
 
 function Pokemon() {
     const [pokemonData, setPokemonData] = useState([]);
@@ -20,8 +21,8 @@ function Pokemon() {
             });
 
             const detailedResponse = await Promise.all(pokemonDetailedApiData);
+            setPokemonData(detailedResponse);
             console.log(detailedResponse);
-
         } catch (error) {
             console.log('Error fetching pokemon data', error);
         }
@@ -32,7 +33,17 @@ function Pokemon() {
     }, [])
 
     return (
-        <div>Hello</div>
+        <section className="container">
+            <header>
+                <h1>Pokémon Cards</h1>
+            </header>
+            <div className="pokemon-search">
+                <input type="text" />
+            </div>
+            <ul className="cards">
+                <PokemonCard />
+            </ul>
+        </section>
     )
 }
 
