@@ -41,7 +41,9 @@ function Pokemon() {
                 <input type="text" />
             </div>
             <ul className="cards">
-                <PokemonCard />
+                {pokemonData.map((currPokemon) => {
+                    return <PokemonCard key={currPokemon.id} pokemonData={currPokemon} />
+                })}
             </ul>
         </section>
     )
